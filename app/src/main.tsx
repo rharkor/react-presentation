@@ -6,6 +6,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import { ThemeProvider } from "./components/ThemeProvider.tsx";
 import { RootProvider } from "./contexts/root/RootProvider.tsx";
 import { SlideProvider } from "./contexts/slide/SlideProvider.tsx";
+import { FullScreenProvider } from "./contexts/fullscreen/FullScreenProvider.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <ThemeProvider>
         <RootProvider>
           <SlideProvider>
-            <App />
+            <FullScreenProvider>
+              <App />
+            </FullScreenProvider>
           </SlideProvider>
         </RootProvider>
       </ThemeProvider>
