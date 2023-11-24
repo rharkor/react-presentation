@@ -9,13 +9,27 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
   const [slide, _setSlide] = useState(0);
   const [maxSlide, setMaxSlide] = useState(0);
 
+  const emitSlideChange = useCallback(
+    (slide: number) => {
+      if (!admin || !controlledByRoot) return;
+      localStorage.setItem("slide", slide.toString());
+      const body = {
+        slide,
+        password: localStorage.getItem("adminPassword"),
+      };
+      socket.emit("slide", JSON.stringify(body));
+    },
+    [admin]
+  );
+
   const setSlide = useCallback(
     (slide: number) => {
       if (slide < 0) return;
       if (slide > maxSlide) return;
       _setSlide(slide);
+      emitSlideChange(slide);
     },
-    [maxSlide]
+    [maxSlide, emitSlideChange]
   );
 
   useEffect(() => {
@@ -31,20 +45,14 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
   }, [admin, setSlide]);
 
   useEffect(() => {
-    if (!admin || !controlledByRoot) return;
-    localStorage.setItem("slide", slide.toString());
-    const body = {
-      slide,
-      password: localStorage.getItem("adminPassword"),
-    };
-    socket.emit("slide", JSON.stringify(body));
-  }, [slide, admin]);
-
-  useEffect(() => {
     socket.emit("getSlide");
     socket.on("slideUpdate", (slide: number) => {
       _setSlide(slide);
     });
+
+    return () => {
+      socket.off("slideUpdate");
+    };
   }, []);
 
   return (
