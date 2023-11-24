@@ -38,7 +38,7 @@ function App() {
   return (
     <main className="min-h-screen overflow-hidden">
       <div
-        className="flex flex-row h-screen gap-2 w-max transition-all duration-300"
+        className="flex flex-row h-screen w-max transition-all duration-300"
         style={{
           transform: `translateX(-${slide * 100}vw)`,
         }}
@@ -70,7 +70,7 @@ function App() {
             />
           </div>
         )}
-        <div className="flex flex-row gap-4">
+        <div className="flex flex-row gap-4 items-center">
           <div className="text-2xl text-foreground-400 font-extrabold">
             {slides.length ? slide + 1 : 0}/{slides.length}
           </div>

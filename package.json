@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"npm run dev -w api\" \"npm run dev -w app\""
+    "dev": "concurrently \"npm run dev -w api\" \"npm run dev -w app\"",
+    "start": "concurrently \"npm run start -w api\" \"npm run build -w app && npm run preview -w app\""
   },
   "author": "",
   "license": "ISC",
