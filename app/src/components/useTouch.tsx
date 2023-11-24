@@ -57,7 +57,7 @@ const useTouch = <TElement extends HTMLElement>(
     } else {
       setDirection(null);
     }
-  }, [startPoint, endPoint]);
+  }, [startPoint, endPoint, treshold]);
 
   useEffect(() => {
     if (direction) {
