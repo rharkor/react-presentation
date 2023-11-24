@@ -2,6 +2,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { SlideContext } from "./SlideContext";
 import { socket } from "../../lib/socket";
 import { RootContext } from "../root/RootContext";
+import { controlledByRoot } from "../../config";
 
 export function SlideProvider({ children }: { children: React.ReactNode }) {
   const { admin } = useContext(RootContext);
@@ -18,7 +19,7 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    if (!admin) return;
+    if (!admin || !controlledByRoot) return;
     const slide = localStorage.getItem("slide");
     if (!slide) return;
     setSlide(parseInt(slide));
@@ -30,7 +31,7 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
   }, [admin, setSlide]);
 
   useEffect(() => {
-    if (!admin) return;
+    if (!admin || !controlledByRoot) return;
     localStorage.setItem("slide", slide.toString());
     const body = {
       slide,
@@ -42,9 +43,9 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     socket.emit("getSlide");
     socket.on("slideUpdate", (slide: number) => {
-      setSlide(slide);
+      _setSlide(slide);
     });
-  }, [setSlide]);
+  }, []);
 
   return (
     <SlideContext.Provider

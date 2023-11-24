@@ -1,5 +1,5 @@
 import { Button, Input, useDisclosure } from "@nextui-org/react";
-import { Eye, EyeOff, KeyRound, LogOut } from "lucide-react";
+import { Eye, EyeOff, KeyRound, LogOut, MonitorUp } from "lucide-react";
 import {
   Modal,
   ModalContent,
@@ -9,10 +9,13 @@ import {
 } from "@nextui-org/react";
 import { useContext, useState } from "react";
 import { RootContext } from "../contexts/root/RootContext";
+import { RemoteContext } from "../contexts/remote/RemoteContext";
+import Remote from "./Remote";
 
 export default function AdminLogin() {
   const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
   const { admin, setAdmin } = useContext(RootContext);
+  const { isRemote, toggleIsRemote } = useContext(RemoteContext);
 
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -34,6 +37,8 @@ export default function AdminLogin() {
     if (worked) {
       localStorage.setItem("adminPassword", password);
       setAdmin(true);
+      setPassword("");
+      setError("");
       onClose();
     } else {
       setError("Incorrect password");
@@ -43,6 +48,7 @@ export default function AdminLogin() {
 
   const handleDisconnect = () => {
     setAdmin(false);
+    if (isRemote) toggleIsRemote();
     localStorage.removeItem("adminPassword");
   };
 
@@ -59,13 +65,22 @@ export default function AdminLogin() {
           <KeyRound />
         </Button>
       ) : (
-        <Button
-          className="min-w-0 p-3 h-[unset]"
-          color="danger"
-          onPress={handleDisconnect}
-        >
-          <LogOut />
-        </Button>
+        <>
+          <Button
+            className="min-w-0 p-3 h-[unset]"
+            color="danger"
+            onPress={handleDisconnect}
+          >
+            <LogOut />
+          </Button>
+          <Button
+            className="min-w-0 p-3 h-[unset]"
+            color="primary"
+            onPress={toggleIsRemote}
+          >
+            {isRemote ? <MonitorUp /> : <Remote />}
+          </Button>
+        </>
       )}
       <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
         <ModalContent>
