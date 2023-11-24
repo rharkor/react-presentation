@@ -8,7 +8,7 @@ Create your presentation easily using ReactJS
 - [x] Share your presentation with your friends
 - [x] Control the shown slide for all users
 - [x] Phone remote control mode
-- [ ] Fullscreen mode
+- [x] Fullscreen mode
 
 ## How to use
 
