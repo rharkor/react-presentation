@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "tsc && node dist/src/index.js",
-    "dev": "tsc-watch --onSuccess \"node dist/src/index.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/src/index.js\"",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
