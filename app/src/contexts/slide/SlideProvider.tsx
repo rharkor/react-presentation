@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { SlideContext } from "./SlideContext";
 import { socket } from "../../lib/socket";
 import { RootContext } from "../root/RootContext";
@@ -55,6 +55,8 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
+  const mainRef = useRef<HTMLDivElement>(null);
+
   return (
     <SlideContext.Provider
       value={{
@@ -62,6 +64,7 @@ export function SlideProvider({ children }: { children: React.ReactNode }) {
         maxSlide,
         setSlide,
         setMaxSlide,
+        mainRef,
       }}
     >
       {children}
